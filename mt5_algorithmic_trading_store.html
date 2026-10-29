@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuantAlgo MT5 Studio - فروش ربات و سورس کد MQL5 متاتریدر ۵</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        gold: {
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                        },
+                        cyber: {
+                            dark: '#080d1a',
+                            card: '#0f172a',
+                            border: '#1e293b',
+                            accent: '#06b6d4',
+                            emerald: '#10b981'
+                        }
+                    },
+                    fontFamily: {
+                        vazir: ['Vazirmatn', 'sans-serif'],
+                        inter: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Vazirmatn Font for Persian & Inter for English -->
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js for Equity Curves -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Vazirmatn', 'Inter', sans-serif;
+            background-color: #080d1a;
+            color: #f1f5f9;
+        }
+        .code-font {
+            font-family: 'Fira Code', monospace;
+            direction: ltr;
+        }
+        .en-font {
+            font-family: 'Inter', sans-serif;
+        }
+        .glow-gold {
+            box-shadow: 0 0 25px -5px rgba(245, 158, 11, 0.25);
+        }
+        .glow-cyan {
+            box-shadow: 0 0 25px -5px rgba(6, 182, 212, 0.25);
+        }
+        .gradient-gold {
+            background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .gradient-cyan {
+            background: linear-gradient(135deg, #38bdf8 0%, #10b981 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #080d1a; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #334155; }
+    </style>
+</head>
+<body class="bg-[#080d1a] text-slate-100 min-h-screen flex flex-col selection:bg-amber-500 selection:text-black">
+
+    <!-- Top Announcement Bar -->
+    <div class="bg-gradient-to-r from-amber-600/30 via-cyan-600/30 to-emerald-600/30 border-b border-slate-800 py-2 px-4 text-xs text-center font-medium flex items-center justify-center gap-3">
+        <span class="bg-amber-500/20 text-amber-400 px-2 py-0.5 rounded border border-amber-500/40 font-bold en-font">MQL5 Source Code (.mq5)</span>
+        <span id="topNoticeText">تمامی پکیج‌ها شامل سورس کد کامل MQL5 + فایل اجرایی EX5 + فایل‌های Set تنظیمات می‌باشند.</span>
+    </div>
+
+    <!-- Navigation Bar -->
+    <header class="sticky top-0 z-40 bg-[#080d1a]/85 backdrop-blur-md border-b border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+            
+            <!-- Logo -->
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 to-cyan-500 flex items-center justify-center shadow-lg shadow-amber-500/20 text-black font-extrabold text-xl">
+                    <i class="fa-solid fa-code"></i>
+                </div>
+                <div>
+                    <span class="text-xl font-black tracking-tight text-white en-font block leading-none">QuantAlgo<span class="text-amber-400">.MT5</span></span>
+                    <span class="text-[10px] text-slate-400 block tracking-widest mt-1 uppercase font-semibold">Institutional EA & Source Code</span>
+                </div>
+            </div>
+
+            <!-- Desktop Nav Items -->
+            <nav class="hidden lg:flex items-center gap-7 text-sm font-medium text-slate-300">
+                <a href="#catalog" class="hover:text-amber-400 transition-colors" data-fa="فروشگاه ربات‌ها" data-en="EA Catalog">فروشگاه ربات‌ها</a>
+                <a href="#mql5-benefits" class="hover:text-amber-400 transition-colors" data-fa="مزایای سورس کد MQL5" data-en="MQL5 Code Benefits">مزایای سورس کد MQL5</a>
+                <a href="#performance" class="hover:text-amber-400 transition-colors" data-fa="بک‌تست و نتایج" data-en="Backtests & Proof">بک‌تست و نتایج</a>
+                <a href="#faq" class="hover:text-amber-400 transition-colors" data-fa="راهنمای نصب و سوالات" data-en="FAQ & Guides">راهنمای نصب و سوالات</a>
+            </nav>
+
+            <!-- Toggles & Action Buttons -->
+            <div class="flex items-center gap-3">
+                
+                <!-- Currency Toggle -->
+                <div class="bg-slate-900 border border-slate-700/80 p-1 rounded-xl flex items-center text-xs font-bold">
+                    <button id="currUsdBtn" onclick="setCurrency('USD')" class="px-2.5 py-1 rounded-lg transition-all bg-amber-500 text-black">
+                        $ USD
+                    </button>
+                    <button id="currIrrBtn" onclick="setCurrency('IRR')" class="px-2.5 py-1 rounded-lg transition-all text-slate-400 hover:text-white">
+                        تومان
+                    </button>
+                </div>
+
+                <!-- Language Toggle -->
+                <button onclick="toggleLanguage()" class="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs font-bold text-slate-300 hover:text-amber-400 flex items-center gap-1.5 transition-all">
+                    <i class="fa-solid fa-globe"></i>
+                    <span id="langLabel">EN</span>
+                </button>
+
+                <!-- Support Contact Button -->
+                <a href="https://t.me" target="_blank" class="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 text-cyan-400 text-xs font-bold transition-all">
+                    <i class="fa-brands fa-telegram text-base"></i>
+                    <span data-fa="پشتیبانی تلگرام" data-en="Telegram Support">پشتیبانی تلگرام</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative pt-12 pb-20 overflow-hidden">
+        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-amber-900/20 via-[#080d1a] to-[#080d1a] -z-10"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900/80 border border-amber-500/40 text-amber-400 text-xs font-bold mb-6 glow-gold">
+                <i class="fa-solid fa-file-code"></i>
+                <span data-fa="تضمین دریافت سورس کد کامل .MQ5 به همراه فایل .EX5 و Set Files" data-en="Full .MQ5 Source Code Included + .EX5 Executable & Set Files">تضمین دریافت سورس کد کامل .MQ5 به همراه فایل .EX5 و Set Files</span>
+            </div>
+
+            <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white mb-6 leading-tight">
+                <span data-fa="خرید ربات الگوریتمی متاتریدر ۵" data-en="Algorithmic Trading EA Store for MT5">خرید ربات الگوریتمی متاتریدر ۵</span><br>
+                <span class="gradient-gold" data-fa="همراه با سورس کد قابل ویرایش MQL5" data-en="With Full Editable MQL5 Source Code">همراه با سورس کد قابل ویرایش MQL5</span>
+            </h1>
+
+            <p class="max-w-3xl mx-auto text-slate-400 text-sm sm:text-base lg:text-lg mb-10 leading-relaxed" data-fa="مجموعه ربات‌های اکسپرت (Expert Advisor) توسعه داده شده بر پایه MQL5 با معماری Object-Oriented. بدون قفل اکانت، قابلیت اجرا روی بی‌نهایت حساب متاتریدر ۵، بهینه‌شده برای طلا (XAUUSD) و جفت‌ارزهای اصلی." data-en="Institutional Expert Advisors written in Object-Oriented MQL5. No account locks, unlimited MT5 deployment, optimized for Gold (XAUUSD) and Major Forex Pairs. Instant delivery with code access.">
+                مجموعه ربات‌های اکسپرت (Expert Advisor) توسعه داده شده بر پایه MQL5 با معماری Object-Oriented. بدون قفل اکانت، قابلیت اجرا روی بی‌نهایت حساب متاتریدر ۵، بهینه‌شده برای طلا (XAUUSD) و جفت‌ارزهای اصلی.
+            </p>
+
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+                <a href="#catalog" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-black font-extrabold text-base hover:shadow-lg hover:shadow-amber-500/30 transition-all flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-download"></i>
+                    <span data-fa="مشاهده و دانلود الگوریتم‌ها" data-en="Browse EAs & Source Codes">مشاهده و دانلود الگوریتم‌ها</span>
+                </a>
+                <a href="#code-preview" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-slate-900 border border-slate-700 text-slate-200 font-bold text-base hover:bg-slate-800 transition-all flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-code text-cyan-400"></i>
+                    <span data-fa="بررسی نمونه سورس کد MQL5" data-en="Inspect MQL5 Code Sample">بررسی نمونه سورس کد MQL5</span>
+                </a>
+            </div>
+
+            <!-- Highlights Banner -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-5xl mx-auto p-6 bg-slate-900/80 rounded-2xl border border-slate-800/90 backdrop-blur-md">
+                <div class="p-3 text-center">
+                    <div class="text-cyan-400 text-2xl mb-1"><i class="fa-solid fa-box-archive"></i></div>
+                    <div class="text-sm font-bold text-white en-font">.MQ5 + .EX5</div>
+                    <div class="text-xs text-slate-400 mt-1" data-fa="سورس و فایل کامپایل‌شده" data-en="Source & Compiled Files">سورس و فایل کامپایل‌شده</div>
+                </div>
+                <div class="p-3 text-center border-r border-slate-800">
+                    <div class="text-emerald-400 text-2xl mb-1"><i class="fa-solid fa-infinity"></i></div>
+                    <div class="text-sm font-bold text-white" data-fa="بدون محدودیت اکانت" data-en="Unlimited MT5 Accounts">بدون محدودیت اکانت</div>
+                    <div class="text-xs text-slate-400 mt-1" data-fa="لایسنس مادام‌العمر" data-en="Lifetime Usage">لایسنس مادام‌العمر</div>
+                </div>
+                <div class="p-3 text-center border-r border-slate-800">
+                    <div class="text-amber-400 text-2xl mb-1"><i class="fa-solid fa-sliders"></i></div>
+                    <div class="text-sm font-bold text-white" data-fa="فایل تنظیمات .SET" data-en="Optimized Set Files">فایل تنظیمات .SET</div>
+                    <div class="text-xs text-slate-400 mt-1" data-fa="کم‌ریسک و پرریسک" data-en="Conservative & Aggressive">کم‌ریسک و پرریسک</div>
+                </div>
+                <div class="p-3 text-center border-r border-slate-800">
+                    <div class="text-purple-400 text-2xl mb-1"><i class="fa-solid fa-bolt"></i></div>
+                    <div class="text-sm font-bold text-white" data-fa="ارسال هوشمند آنی" data-en="Instant Automated Delivery">ارسال هوشمند آنی</div>
+                    <div class="text-xs text-slate-400 mt-1" data-fa="ایمیل و تلگرام" data-en="Email & Telegram Zip">ایمیل و تلگرام</div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Product Catalog / Storefront Section -->
+    <section id="catalog" class="py-20 bg-slate-950/60 border-y border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+                <div>
+                    <span class="text-xs font-bold text-amber-400 uppercase tracking-widest block mb-2" data-fa="کاتالوگ محصولات MT5" data-en="MT5 STOREFRONT">کاتالوگ محصولات MT5</span>
+                    <h2 class="text-3xl font-extrabold text-white" data-fa="ربات‌های هوشمند و فایل‌های سورس MQL5" data-en="Expert Advisors & MQL5 Source Packages">ربات‌های هوشمند و فایل‌های سورس MQL5</h2>
+                </div>
+
+                <!-- Filter Categories -->
+                <div class="flex flex-wrap gap-2 text-xs font-bold" id="filterBtnGroup">
+                    <button onclick="filterCatalog('all')" class="filter-btn active px-4 py-2 rounded-xl bg-amber-500 text-black border border-amber-500 transition-all" data-filter="all">همه الگوریتم‌ها</button>
+                    <button onclick="filterCatalog('scalper')" class="filter-btn px-4 py-2 rounded-xl bg-slate-900 text-slate-300 border border-slate-800 hover:border-slate-700 transition-all" data-filter="scalper">اسکلپر طلا (Gold Scalp)</button>
+                    <button onclick="filterCatalog('smartmoney')" class="filter-btn px-4 py-2 rounded-xl bg-slate-900 text-slate-300 border border-slate-800 hover:border-slate-700 transition-all" data-filter="smartmoney">اسپات و Smart Money</button>
+                    <button onclick="filterCatalog('grid')" class="filter-btn px-4 py-2 rounded-xl bg-slate-900 text-slate-300 border border-slate-800 hover:border-slate-700 transition-all" data-filter="grid">مولتی کرنس با ریسک کنترل شده</button>
+                </div>
+            </div>
+
+            <!-- EA Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="productGrid">
+                
+                <!-- Product 1: Gold Scalper Pro X -->
+                <div class="product-card bg-slate-900 rounded-2xl border border-slate-800 hover:border-amber-500/60 transition-all duration-300 flex flex-col justify-between overflow-hidden group glow-gold" data-category="scalper">
+                    <div class="p-6">
+                        <div class="flex items-start justify-between mb-4">
+                            <div>
+                                <span class="px-2.5 py-1 rounded-md bg-amber-500/10 text-amber-400 text-[11px] font-bold border border-amber-500/30 en-font">XAUUSD / Gold</span>
+                                <h3 class="text-xl font-bold text-white mt-2 group-hover:text-amber-400 transition-colors">Gold Scalper Pro X</h3>
+                            </div>
+                            <span class="w-10 h-10 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-amber-400 font-bold text-lg">
+                                <i class="fa-solid fa-coins"></i>
+                            </span>
+                        </div>
+
+                        <p class="text-xs text-slate-400 leading-relaxed mb-6" data-fa="الگوریتم تخصصی اسکلپ طلا در تایم‌فریم M5 بر پایه ترکیب Order Flow و نوسانات اسپرد. شامل مدیریت ریسک Dynamic StopLoss." data-en="High-frequency Gold scalper for M5 timeframe based on Order Flow & Dynamic ATR Trailing Stops.">
+                            الگوریتم تخصصی اسکلپ طلا در تایم‌فریم M5 بر پایه ترکیب Order Flow و نوسانات اسپرد. شامل مدیریت ریسک Dynamic StopLoss.
+                        </p>
+
+                        <!-- MQL5 Badge -->
+                        <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 mb-6 space-y-2">
+                            <div class="flex items-center justify-between text-xs">
+                                <span class="text-slate-400" data-fa="فایل‌های تحویلی:" data-en="Deliverables:">فایل‌های تحویلی:</span>
+                                <span class="text-amber-400 font-bold code-font">.MQ5 + .EX5 + .SET</span>
+                            </div>
+                            <div class="flex items-center justify-between text-xs">
+                                <span class="text-slate-400" data-fa="نسخه متاتریدر:" data-en="MT5 Build:">نسخه متاتریدر:</span>
+                                <span class="text-slate-200 font-mono">Build 4000+ (2026)</span>
+                            </div>
+                        </div>
+
+                        <!-- Stats Grid -->
+                        <div class="grid grid-cols-3 gap-2 text-center text-xs py-3 border-t border-slate-800">
+                            <div>
+                                <div class="text-slate-400 text-[10px]" data-fa="وین‌ریت" data-en="Win Rate">وین‌ریت</div>
+                                <div class="text-emerald-400 font-extrabold en-font text-sm mt-0.5">82.4%</div>
+                            </div>
+                            <div class="border-r border-slate-800">
+                                <div class="text-slate-400 text-[10px]" data-fa="حداکثر دروداون" data-en="Max DD">حداکثر دروداون</div>
+                                <div class="text-cyan-400 font-extrabold en-font text-sm mt-0.5">3.8%</div>
+                            </div>
+                            <div class="border-r border-slate-800">
+                                <div class="text-slate-400 text-[10px]" data-fa="سود ماهانه" data-en="Monthly ROI">سود ماهانه</div>
+                                <div class="text-amber-400 font-extrabold en-font text-sm mt-0.5">+22%</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer / Purchase -->
+                    <div class="p-6 pt-0 flex items-center justify-between border-t border-slate-800/80 bg-slate-950/40">
+                        <div>
+                            <span class="text-[10px] text-slate-400 block" data-fa="قیمت سورس کد کامل" data-en="Full Source Price">قیمت سورس کد کامل</span>
+                            <span class="text-2xl font-black text-white price-display" data-usd="249" data-irr="16200000">$249 USD</span>
+                        </div>
+                        <button onclick="openPurchaseModal('Gold Scalper Pro X', 249, 16200000, 'scalper')" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-black font-extrabold text-sm hover:shadow-lg transition-all flex items-center gap-2">
+                            <i class="fa-solid fa-cart-shopping"></i>
+                            <span data-fa="خرید آنی سورس" data-en="Buy Source Code">خرید آنی سورس</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Product 2: EURUSD Smart Money ICT Bot -->
+                <div class="product-card bg-slate-900 rounded-2xl border border-slate-800 hover:border-cyan-500/60 transition-all duration-300 flex flex-col justify-between overflow-hidden group" data-category="smartmoney">
+                    <div class="p-6">
+                        <div class="flex items-start justify-between mb-4">
+                            <div>
+                                <span class="px-2.5 py-1 rounded-md bg-cyan-500/10 text-cyan-400 text-[11px] font-bold border border-cyan-500/30 en-font">EURUSD / GBPUSD</span>
+                                <h3 class="text-xl font-bold text-white mt-2 group-hover:text-cyan-400 transition-colors">ICT Smart Money Bot</h3>
+                            </div>
+                            <span class="w-10 h-10 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-cyan-400 font-bold text-lg">
+                                <i class="fa-solid fa-chart-candlestick"></i>
+                            </span>
+                        </div>
+
+                        <p class="text-xs text-slate-400 leading-relaxed mb-6" data-fa="شناسایی خودکار بلاک‌های سفارش (Order Blocks)، FVG و نقدینگی سقف و کف بازار بر اساس مفاهیم الگوریتمی ICT در متاتریدر ۵." data-en="Automated ICT Order Block detection, Fair Value Gap (FVG), and liquidity sweeps execution in MQL5.">
+                            شناسایی خودکار بلاک‌های سفارش (Order Blocks)، FVG و نقدینگی سقف و کف بازار بر اساس مفاهیم الگوریتمی ICT در متاتریدر ۵.
+                        </p>
+
+                        <!-- MQL5 Badge -->
+                        <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 mb-6 space-y-2">
+                            <div class="flex items-center justify-between text-xs">
+                                <span class="text-slate-400" data-fa="فایل‌های تحویلی:" data-en="Deliverables:">فایل‌های تحویلی:</span>
+                                <span class="text-cyan-400 font-bold code-font">.MQ5 + .EX5 + .SET</span>
+                            </div>
+                            <div class="flex items-center justify-between text-xs">
+                                <span class="text-slate-400" data-fa="معماری کد:" data-en="Architecture:">معماری کد:</span>
+                                <span class="text-slate-200 font-mono">Clean Object-Oriented</span>
+                            </div>
+                        </div>
+
+                        <!-- Stats Grid -->
+                        <div class="grid grid-cols-3 gap-2 text-center text-xs py-3 border-t border-slate-800">
+                            <div>
+                                <div class="text-slate-400 text-[10px]" data-fa="وین‌ریت" data-en="Win Rate">وین‌ریت</div>
+                                <div class="text-emerald-400 font-extrabold en-font text-sm mt-0.5">76.8%</div>
+                            </div>
+                            <div class="border-r border-slate-800">
+                                <div class="text-slate-400 text-[10px]" data-fa="ریوارد به ریسک" data-en="R:R Ratio">ریوارد به ریسک</div>
+                                <div class="text-cyan-400 font-extrabold en-font text-sm mt-0.5">1:3.5</div>
+                            </div>
+                            <div class="border-r border-slate-800">
+                                <div class="text-slate-400 text-[10px]" data-fa="سود ماهانه" data-en="Monthly ROI">سود ماهانه</div>
+                                <div class="text-amber-400 font-extrabold en-font text-sm mt-0.5">+18%</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer / Purchase -->
+                    <div class="p-6 pt-0 flex items-center justify-between border-t border-slate-800/80 bg-slate-950/40">
+                        <div>
+                            <span class="text-[10px] text-slate-400 block" data-fa="قیمت سورس کد کامل" data-en="Full Source Price">قیمت سورس کد کامل</span>
+                            <span class="text-2xl font-black text-white price-display" data-usd="299" data-irr="19400000">$299 USD</span>
+                        </div>
+                        <button onclick="openPurchaseModal('ICT Smart Money Bot', 299, 19400000, 'smartmoney')" class="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-cyan-400 border border-cyan-500/40 font-extrabold text-sm transition-all flex items-center gap-2">
+                            <i class="fa-solid fa-cart-shopping"></i>
+                            <span data-fa="خرید آنی سورس" data-en="Buy Source Code">خرید آنی سورس</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Product 3: Multi-Currency Grid AI Pro -->
+                <div class="product-card bg-slate-900 rounded-2xl border border-slate-800 hover:border-emerald-500/60 transition-all duration-300 flex flex-col justify-between overflow-hidden group" data-category="grid">
+                    <div class="p-6">
+                        <div class="flex items-start justify-between mb-4">
+                            <div>
+                                <span class="px-2.5 py-1 rounded-md bg-emerald-500/10 text-emerald-400 text-[11px] font-bold border border-emerald-500/30 en-font">Multi-Pair (6 FX Pairs)</span>
+                                <h3 class="text-xl font-bold text-white mt-2 group-hover:text-emerald-400 transition-colors">Multi-Currency Grid AI</h3>
+                            </div>
+                            <span class="w-10 h-10 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-emerald-400 font-bold text-lg">
+                                <i class="fa-solid fa-network-wired"></i>
+                            </span>
+                        </div>
+
+                        <p class="text-xs text-slate-400 leading-relaxed mb-6" data-fa="ربات شبکه‌ای پیشرفته با کنترل دقیق درصد Drawdown کلی. سیستم هوشمند خروج جمعی پوزیشن‌ها (Basket Profit Close)." data-en="Multi-pair neural grid algorithm with account-level drawdown circuit breaker and basket profit taking.">
+                            ربات شبکه‌ای پیشرفته با کنترل دقیق درصد Drawdown کلی. سیستم هوشمند خروج جمعی پوزیشن‌ها (Basket Profit Close).
+                        </p>
+
+                        <!-- MQL5 Badge -->
+                        <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 mb-6 space-y-2">
+                            <div class="flex items-center justify-between text-xs">
+                                <span class="text-slate-400" data-fa="فایل‌های تحویلی:" data-en="Deliverables:">فایل‌های تحویلی:</span>
+                                <span class="text-emerald-400 font-bold code-font">.MQ5 + .EX5 + .SET</span>
+                            </div>
+                            <div class="flex items-center justify-between text-xs">
+                                <span class="text-slate-400" data-fa="کنترل ریسک:" data-en="Risk Protection:">کنترل ریسک:</span>
+                                <span class="text-slate-200 font-mono">Max Equity Stop Included</span>
+                            </div>
+                        </div>
+
+                        <!-- Stats Grid -->
+                        <div class="grid grid-cols-3 gap-2 text-center text-xs py-3 border-t border-slate-800">
+                            <div>
+                                <div class="text-slate-400 text-[10px]" data-fa="وین‌ریت" data-en="Win Rate">وین‌ریت</div>
+                                <div class="text-emerald-400 font-extrabold en-font text-sm mt-0.5">88.2%</div>
+                            </div>
+                            <div class="border-r border-slate-800">
+                                <div class="text-slate-400 text-[10px]" data-fa="حداکثر دروداون" data-en="Max DD">حداکثر دروداون</div>
+                                <div class="text-amber-400 font-extrabold en-font text-sm mt-0.5">8.5%</div>
+                            </div>
+                            <div class="border-r border-slate-800">
+                                <div class="text-slate-400 text-[10px]" data-fa="سود ماهانه" data-en="Monthly ROI">سود ماهانه</div>
+                                <div class="text-emerald-400 font-extrabold en-font text-sm mt-0.5">+25%</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer / Purchase -->
+                    <div class="p-6 pt-0 flex items-center justify-between border-t border-slate-800/80 bg-slate-950/40">
+                        <div>
+                            <span class="text-[10px] text-slate-400 block" data-fa="قیمت سورس کد کامل" data-en="Full Source Price">قیمت سورس کد کامل</span>
+                            <span class="text-2xl font-black text-white price-display" data-usd="199" data-irr="12900000">$199 USD</span>
+                        </div>
+                        <button onclick="openPurchaseModal('Multi-Currency Grid AI', 199, 12900000, 'grid')" class="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-emerald-400 border border-emerald-500/40 font-extrabold text-sm transition-all flex items-center gap-2">
+                            <i class="fa-solid fa-cart-shopping"></i>
+                            <span data-fa="خرید آنی سورس" data-en="Buy Source Code">خرید آنی سورس</span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive MQL5 Source Code Preview Section -->
+    <section id="code-preview" class="py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                
+                <div>
+                    <span class="text-xs font-bold text-cyan-400 uppercase tracking-widest block mb-2" data-fa="شفافیت کامل برنامه‌نویسی" data-en="FULL TRANSPARENCY">شفافیت کامل برنامه‌نویسی</span>
+                    <h2 class="text-3xl font-extrabold text-white mb-6" data-fa="چرا دریافت سورس کد MQL5 اهمیت دارد؟" data-en="Why Owning the Raw MQL5 Code Matters?">چرا دریافت سورس کد MQL5 اهمیت دارد؟</h2>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-4 p-4 rounded-xl bg-slate-900 border border-slate-800">
+                            <div class="w-10 h-10 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center shrink-0 font-bold">
+                                <i class="fa-solid fa-code-merge"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-base font-bold text-white mb-1" data-fa="شخصی‌سازی و بهینه‌سازی پارامترها" data-en="Full Customization & Parameter Tuning">شخصی‌سازی و بهینه‌سازی پارامترها</h4>
+                                <p class="text-xs text-slate-400 leading-relaxed" data-fa="امکان دستکاری توابع مدیریت سرمایه، افزودن فیلتر اندیکاتورهای جدید و بهینه‌سازی ژنتیک استراتژی در MetaTester 5." data-en="Modify risk algorithms, introduce custom indicators, and run genetic optimizations in MT5 strategy tester.">
+                                    امکان دستکاری توابع مدیریت سرمایه، افزودن فیلتر اندیکاتورهای جدید و بهینه‌سازی ژنتیک استراتژی در MetaTester 5.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4 p-4 rounded-xl bg-slate-900 border border-slate-800">
+                            <div class="w-10 h-10 rounded-lg bg-cyan-500/10 text-cyan-400 flex items-center justify-center shrink-0 font-bold">
+                                <i class="fa-solid fa-shield-halved"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-base font-bold text-white mb-1" data-fa="عدم وجود خطرات فایل‌های DLL مخرب" data-en="100% Safe - No DLL Injections">عدم وجود خطرات فایل‌های DLL مخرب</h4>
+                                <p class="text-xs text-slate-400 leading-relaxed" data-fa="اکثر ربات‌های قفل شده متاتریدر نیازمند DLL مخرب هستند. فایل MQL5 خالص کاملاً امن بوده و مستقیماً در متاتریدر کامپایل می‌شود." data-en="No third-party DLL dependencies. Pure native MQL5 code compiles natively inside MT5 MetaEditor without security risks.">
+                                    اکثر ربات‌های قفل شده متاتریدر نیازمند DLL مخرب هستند. فایل MQL5 خالص کاملاً امن بوده و مستقیماً در متاتریدر کامپایل می‌شود.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4 p-4 rounded-xl bg-slate-900 border border-slate-800">
+                            <div class="w-10 h-10 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center shrink-0 font-bold">
+                                <i class="fa-solid fa-graduation-cap"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-base font-bold text-white mb-1" data-fa="آموزش برنامه‌نویسی اکسپرت MQL5" data-en="Learn Professional MQL5 Coding">آموزش برنامه‌نویسی اکسپرت MQL5</h4>
+                                <p class="text-xs text-slate-400 leading-relaxed" data-fa="بهترین راه برای یادگیری معامله‌گری الگوریتمی، مطالعه سورس کدهای ساختاریافته و استاندارد تیم‌های حرفه‌ای است." data-en="Study professional object-oriented MQL5 structures to build your own custom trading bots.">
+                                    بهترین راه برای یادگیری معامله‌گری الگوریتمی، مطالعه سورس کدهای ساختاریافته و استاندارد تیم‌های حرفه‌ای است.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live Code Editor Simulation -->
+                <div class="bg-slate-950 rounded-2xl border border-slate-800 overflow-hidden shadow-2xl glow-cyan">
+                    <!-- Editor Header -->
+                    <div class="bg-slate-900 px-4 py-3 border-b border-slate-800 flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <span class="w-3 h-3 rounded-full bg-red-500"></span>
+                            <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
+                            <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+                            <span class="text-xs font-mono text-slate-400 mr-2">GoldScalperCore.mq5</span>
+                        </div>
+                        <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20">MQL5 Native</span>
+                    </div>
+
+                    <!-- Editor Code Display -->
+                    <div class="p-5 code-font text-xs overflow-x-auto text-slate-300 leading-relaxed max-h-96">
+                        <pre><code><span class="text-purple-400">//+------------------------------------------------------------------+</span>
+<span class="text-purple-400">//| Expert Advisor Initialization Function in MQL5                    |</span>
+<span class="text-purple-400">//+------------------------------------------------------------------+</span>
+<span class="text-blue-400">#include</span> <span class="text-emerald-400">&lt;Trade\Trade.mqh&gt;</span>
+<span class="text-blue-400">#include</span> <span class="text-emerald-400">&lt;QuantAlgo\RiskEngine.mqh&gt;</span>
+
+<span class="text-amber-400">CTrade</span>         m_trade;
+<span class="text-amber-400">CRiskEngine</span>    m_risk;
+
+<span class="text-blue-400">input group</span>    <span class="text-slate-400">"--- Risk & Money Management ---"</span>
+<span class="text-blue-400">input double</span>   InpRiskPercent   = <span class="text-cyan-400">1.5</span>;      <span class="text-slate-500">// Risk per trade (%)</span>
+<span class="text-blue-400">input double</span>   InpMaxDrawdown   = <span class="text-cyan-400">5.0</span>;      <span class="text-slate-500">// Max Equity DD Cutoff</span>
+
+<span class="text-blue-400">int</span> <span class="text-amber-300">OnInit</span>()
+{
+   <span class="text-purple-400">// Verify MQL5 MetaTrader Build compatibility</span>
+   <span class="text-blue-400">if</span>(<span class="text-cyan-400">TerminalInfoInteger</span>(<span class="text-amber-400">TERMINAL_BUILD</span>) &lt; <span class="text-cyan-400">3800</span>) {
+      <span class="text-cyan-400">Print</span>(<span class="text-red-400">"Outdated MT5 Terminal Build. Update required."</span>);
+      <span class="text-blue-400">return</span>(<span class="text-amber-400">INIT_FAILED</span>);
+   }
+   
+   m_trade.<span class="text-amber-300">SetExpertMagicNumber</span>(<span class="text-cyan-400">990821</span>);
+   <span class="text-blue-400">return</span>(<span class="text-amber-400">INIT_SUCCEEDED</span>);
+}
+
+<span class="text-blue-400">void</span> <span class="text-amber-300">OnTick</span>()
+{
+   <span class="text-purple-400">// Execute Order Flow Scalp Logic</span>
+   <span class="text-blue-400">if</span>(!m_risk.<span class="text-amber-300">CheckMaxDrawdownLimit</span>(InpMaxDrawdown)) <span class="text-blue-400">return</span>;
+   
+   <span class="text-blue-400">double</span> lotSize = m_risk.<span class="text-amber-300">CalculateLot</span>(InpRiskPercent);
+   <span class="text-purple-400">// Execute Buy/Sell Trade with Dynamic ATR SL</span>
+}</code></pre>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Backtest & Performance Gallery -->
+    <section id="performance" class="py-20 bg-slate-950/80 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <h2 class="text-3xl font-bold text-white mb-3" data-fa="نتایج بک‌تست با کیفیت داده 99.9%" data-en="Verified Backtest & Equity Curves (99.9% Tick Data)">نتایج بک‌تست با کیفیت داده 99.9%</h2>
+                <p class="text-slate-400 text-sm" data-fa="تست شده بر روی دیتای واقعی تیک‌های اقتصادی بروکرهای ECN متاتریدر ۵ در طول ۵ سال گذشته" data-en="Tested against 5 years of real broker tick data in MetaTester 5">
+                    تست شده بر روی دیتای واقعی تیک‌های اقتصادی بروکرهای ECN متاتریدر ۵ در طول ۵ سال گذشته
+                </p>
+            </div>
+
+            <!-- Chart & Performance Summary Container -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+                
+                <div class="lg:col-span-2 bg-slate-900 p-6 rounded-2xl border border-slate-800">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <span class="text-xs text-slate-400 block" data-fa="رشد کل چارت بالانس (Equity Curve)" data-en="Simulated Equity Growth">رشد کل چارت بالانس (Equity Curve)</span>
+                            <span class="text-2xl font-black text-emerald-400 en-font">$10,000 &rarr; $34,850 USD</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <span class="px-3 py-1 bg-amber-500/10 text-amber-400 text-xs rounded-full border border-amber-500/30 font-mono">MetaTester 5</span>
+                            <span class="px-3 py-1 bg-emerald-500/10 text-emerald-400 text-xs rounded-full border border-emerald-500/30 font-mono">99.9% Tick Quality</span>
+                        </div>
+                    </div>
+
+                    <div class="h-72 w-full">
+                        <canvas id="backtestChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Key Metrics Card -->
+                <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 space-y-4">
+                    <h3 class="text-lg font-bold text-white border-b border-slate-800 pb-3 flex items-center justify-between">
+                        <span data-fa="شاخص‌های عملکردی" data-en="Performance Metrics">شاخص‌های عملکردی</span>
+                        <i class="fa-solid fa-square-poll-vertical text-amber-400"></i>
+                    </h3>
+
+                    <div class="flex justify-between items-center text-xs py-1.5 border-b border-slate-800/60">
+                        <span class="text-slate-400" data-fa="پرافیت فاکتور (Profit Factor):" data-en="Profit Factor:">پرافیت فاکتور (Profit Factor):</span>
+                        <span class="text-emerald-400 font-bold font-mono text-sm">2.48</span>
+                    </div>
+
+                    <div class="flex justify-between items-center text-xs py-1.5 border-b border-slate-800/60">
+                        <span class="text-slate-400" data-fa="نسبت شارپ (Sharpe Ratio):" data-en="Sharpe Ratio:">نسبت شارپ (Sharpe Ratio):</span>
+                        <span class="text-cyan-400 font-bold font-mono text-sm">3.12</span>
+                    </div>
+
+                    <div class="flex justify-between items-center text-xs py-1.5 border-b border-slate-800/60">
+                        <span class="text-slate-400" data-fa="حداکثر افت حساب (Max DD):" data-en="Max Equity Drawdown:">حداکثر افت حساب (Max DD):</span>
+                        <span class="text-amber-400 font-bold font-mono text-sm">4.12%</span>
+                    </div>
+
+                    <div class="flex justify-between items-center text-xs py-1.5 border-b border-slate-800/60">
+                        <span class="text-slate-400" data-fa="تعداد کل معاملات:" data-en="Total Trades:">تعداد کل معاملات:</span>
+                        <span class="text-slate-200 font-mono text-sm">2,140</span>
+                    </div>
+
+                    <div class="pt-2">
+                        <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 flex items-center gap-3">
+                            <i class="fa-solid fa-certificate text-2xl text-amber-400"></i>
+                            <p class="text-[11px] text-slate-400 leading-tight" data-fa="گزارش کامل فرمت HTML بکتست متاتریدر ۵ همراه با سورس کد ارسال می‌شود." data-en="Full HTML MetaTester Report included in the source code ZIP archive.">
+                                گزارش کامل فرمت HTML بکتست متاتریدر ۵ همراه با سورس کد ارسال می‌شود.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Order & Dual Payment Gateway Modal -->
+    <div id="purchaseModal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-2xl w-full p-6 sm:p-8 relative max-h-[92vh] overflow-y-auto glow-gold">
+            
+            <!-- Close Button -->
+            <button onclick="closePurchaseModal()" class="absolute top-4 left-4 text-slate-400 hover:text-white text-xl p-2 transition-colors">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <!-- Modal Title & Selected Item -->
+            <div class="text-center mb-6">
+                <span class="px-3 py-1 rounded-full bg-amber-500/10 text-amber-400 text-xs font-bold border border-amber-500/30 inline-block mb-2">
+                    MQL5 Source Code Package (.MQ5 + .EX5)
+                </span>
+                <h3 class="text-2xl font-black text-white" id="modalProductName">Gold Scalper Pro X</h3>
+                <p class="text-xs text-slate-400 mt-1">
+                    <span data-fa="مبلغ قابل پرداخت:" data-en="Total Payable:">مبلغ قابل پرداخت:</span> 
+                    <span id="modalUsdPrice" class="text-amber-400 font-bold font-mono text-sm">$249 USD</span> 
+                    / <span id="modalIrrPrice" class="text-emerald-400 font-bold text-sm">۱۶,۲۰،۰۰۰ تومان</span>
+                </p>
+            </div>
+
+            <!-- Payment Method Tabs (Crypto USDT vs Iranian Rial/Shaparak) -->
+            <div class="grid grid-cols-2 gap-2 bg-slate-950 p-1.5 rounded-xl border border-slate-800 mb-6">
+                <button id="tabCryptoBtn" onclick="switchPaymentMethod('crypto')" class="py-2.5 rounded-lg font-bold text-xs sm:text-sm transition-all bg-gradient-to-r from-amber-500 to-amber-600 text-black flex items-center justify-center gap-2">
+                    <i class="fa-brands fa-bitcoin text-base"></i>
+                    <span data-fa="پرداخت تتر (USDT Crypto)" data-en="Pay USDT Crypto">پرداخت تتر (USDT Crypto)</span>
+                </button>
+                <button id="tabRialBtn" onclick="switchPaymentMethod('rial')" class="py-2.5 rounded-lg font-bold text-xs sm:text-sm transition-all text-slate-400 hover:text-white flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-credit-card text-base"></i>
+                    <span data-fa="ریالی (شاپرک / کارت / شبا)" data-en="Rial (Shaparak / Sheba)">ریالی (شاپرک / کارت / شبا)</span>
+                </button>
+            </div>
+
+            <!-- Crypto View -->
+            <div id="cryptoPaymentView" class="space-y-5">
+                <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-4">
+                    
+                    <div class="flex justify-between items-center text-xs">
+                        <span class="text-slate-400" data-fa="شبکه‌های پشتیبانی شده:" data-en="Supported Networks:">شبکه‌های پشتیبانی شده:</span>
+                        <span class="text-cyan-400 font-bold font-mono">TRC20 / BEP20 / Solana</span>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="text-xs text-slate-400 block" data-fa="آدرس کیف پول واریز تتر (USDT TRC20):" data-en="USDT Deposit Wallet (TRC20):">آدرس کیف پول واریز تتر (USDT TRC20):</label>
+                        <div class="flex items-center gap-2 bg-slate-900 p-2.5 rounded-lg border border-slate-700">
+                            <input id="cryptoWalletAddr" type="text" readonly value="T9yD14Nj9j7xQvP8kR2mS4eW6uX01ZaBcD" class="bg-transparent text-xs font-mono text-slate-200 w-full outline-none" />
+                            <button onclick="copyToClipboard('cryptoWalletAddr')" class="px-3 py-1 bg-amber-500/20 text-amber-400 rounded hover:bg-amber-500/30 text-xs font-bold transition-all shrink-0">
+                                کپی آدرس
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- QR Code Display -->
+                    <div class="flex justify-center py-2">
+                        <div class="p-2 bg-white rounded-xl shadow-lg">
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=T9yD14Nj9j7xQvP8kR2mS4eW6uX01ZaBcD" alt="USDT TRC20 QR Code" class="w-28 h-28">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form for Crypto Order Verification -->
+                <form onsubmit="processCryptoOrder(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs text-slate-300 mb-1" data-fa="ایمیل تحویل‌گیرنده سورس کد (.MQ5 Zip):" data-en="Email Address for Deliverable Delivery:">ایمیل تحویل‌گیرنده سورس کد (.MQ5 Zip):</label>
+                        <input type="email" required placeholder="name@example.com" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-xs text-white focus:border-amber-500 outline-none font-mono">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-slate-300 mb-1" data-fa="آیدی تلگرام (جهت ارسال بکاپ فوری فایل):" data-en="Telegram Username (For Instant Backup File):">آیدی تلگرام (جهت ارسال بکاپ فوری فایل):</label>
+                        <input type="text" required placeholder="@your_telegram_id" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-xs text-white focus:border-amber-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-slate-300 mb-1" data-fa="هش تراکنش کریپتو (TXID):" data-en="Transaction Hash (TXID):">هش تراکنش کریپتو (TXID):</label>
+                        <input type="text" required placeholder="64-character hash value" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-xs text-white focus:border-amber-500 outline-none font-mono">
+                    </div>
+                    <button type="submit" class="w-full py-3.5 bg-gradient-to-r from-amber-500 to-amber-600 text-black font-extrabold rounded-xl hover:shadow-lg transition-all text-sm">
+                        ثبت نهایی و دریافت لینک دانلود سورس MQL5
+                    </button>
+                </form>
+            </div>
+
+            <!-- Iranian Rial Payment View (Shaparak / Sheba / Card) -->
+            <div id="rialPaymentView" class="space-y-5 hidden">
+                
+                <!-- Direct Portal Button -->
+                <div class="p-4 bg-gradient-to-r from-emerald-950/60 to-slate-950 border border-emerald-500/40 rounded-xl text-center space-y-3">
+                    <p class="text-xs text-slate-300 leading-relaxed" data-fa="پرداخت مستقیم آنلاین از طریق درگاه شبکه شاپرک با کلیه کارت‌های بانکی عضو شتاب" data-en="Direct online payment via Shaparak Portal with all Iranian bank cards">
+                        پرداخت مستقیم آنلاین از طریق درگاه شبکه شاپرک با کلیه کارت‌های بانکی عضو شتاب
+                    </p>
+                    <button onclick="simulateShaparakRedirect()" class="w-full py-3 bg-emerald-500 hover:bg-emerald-600 text-black font-extrabold rounded-xl text-xs transition-all flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-building-columns"></i>
+                        <span data-fa="ورود به درگاه آنلاین شاپرک (بانک سامان / پارسیان)" data-en="Proceed to Online Shaparak Portal">ورود به درگاه آنلاین شاپرک (بانک سامان / پارسیان)</span>
+                    </button>
+                </div>
+
+                <div class="relative flex py-1 items-center">
+                    <div class="flex-grow border-t border-slate-800"></div>
+                    <span class="flex-shrink mx-4 text-[11px] text-slate-500 uppercase font-bold" data-fa="یا واریز به کارت / شبا" data-en="OR Card-to-Card / Sheba IBAN">یا واریز به کارت / شبا</span>
+                    <div class="flex-grow border-t border-slate-800"></div>
+                </div>
+
+                <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3">
+                    <!-- Bank Card -->
+                    <div>
+                        <span class="text-xs text-slate-400 block mb-1" data-fa="شماره کارت (بانک ملی / سامان):" data-en="Bank Card Number:">شماره کارت (بانک ملی / سامان):</span>
+                        <div class="flex items-center justify-between bg-slate-900 p-2.5 rounded-lg border border-slate-700">
+                            <span id="bankCardNum" class="text-sm font-bold font-mono text-amber-400">6037 - 9975 - 1234 - 5678</span>
+                            <button onclick="copyToClipboard('bankCardNum')" class="px-3 py-1 bg-slate-800 text-slate-300 rounded hover:text-white text-xs font-bold transition-all">
+                                کپی کارت
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Sheba -->
+                    <div>
+                        <span class="text-xs text-slate-400 block mb-1" data-fa="شماره شبا (IBAN):" data-en="Sheba IBAN Number:">شماره شبا (IBAN):</span>
+                        <div class="flex items-center justify-between bg-slate-900 p-2.5 rounded-lg border border-slate-700">
+                            <span id="bankShebaNum" class="text-xs font-mono text-slate-200">IR56 0170 0000 0012 3456 7890 01</span>
+                            <button onclick="copyToClipboard('bankShebaNum')" class="px-3 py-1 bg-slate-800 text-slate-300 rounded hover:text-white text-xs font-bold transition-all">
+                                کپی شبا
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between text-xs text-slate-400 pt-1">
+                        <span data-fa="نام صاحب حساب:" data-en="Cardholder Name:">نام صاحب حساب:</span>
+                        <span class="text-white font-bold">تیم استودیو الگوریتمی کوانت</span>
+                    </div>
+                </div>
+
+                <!-- Manual Form -->
+                <form onsubmit="processRialOrder(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs text-slate-300 mb-1" data-fa="ایمیل جهت دریافت کد و سورس اکسپرت:" data-en="Email Address:">ایمیل جهت دریافت کد و سورس اکسپرت:</label>
+                        <input id="rialEmailInput" type="email" required placeholder="user@domain.com" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-xs text-white focus:border-emerald-500 outline-none font-mono">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-slate-300 mb-1" data-fa="شماره پیگیری بانک / کد ارجاع فیش:" data-en="Bank Payment Reference / Tracking ID:">شماره پیگیری بانک / کد ارجاع فیش:</label>
+                        <input type="text" required placeholder="مثال: 849201" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-xs text-white focus:border-emerald-500 outline-none font-mono">
+                    </div>
+                    <button type="submit" class="w-full py-3.5 bg-gradient-to-r from-emerald-500 to-cyan-500 text-black font-extrabold rounded-xl hover:shadow-lg transition-all text-sm">
+                        ثبت فیش و ارسال آنی فایل ZIP سورس MQL5
+                    </button>
+                </form>
+            </div>
+
+            <!-- Instant Source Download Generation Screen & Order Receipt -->
+            <div id="downloadSuccessView" class="hidden text-center py-2 space-y-4">
+                <div class="w-14 h-14 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center text-2xl mx-auto border border-emerald-500/40 animate-pulse">
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+                <div>
+                    <h4 class="text-xl font-bold text-white" data-fa="پرداخت موفق! لینک اختصاصی دانلود تولید شد" data-en="Payment Verified! Secure Link Generated">پرداخت موفق! لینک اختصاصی دانلود تولید شد</h4>
+                    <p class="text-xs text-slate-400 mt-1" data-fa="لینک امن دانلود سورس کد MQL5 به همراه رسید سفارش آماده است" data-en="Your unique MQL5 source code delivery link & receipt are ready">
+                        لینک امن دانلود سورس کد MQL5 به همراه رسید سفارش آماده است
+                    </p>
+                </div>
+
+                <!-- Digital Order Receipt Card -->
+                <div class="bg-slate-950 border border-slate-800 rounded-xl p-4 text-right space-y-3 text-xs">
+                    <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+                        <span class="text-slate-400" data-fa="شماره سفارش:" data-en="Order ID:">شماره سفارش:</span>
+                        <span id="receiptOrderId" class="font-mono text-amber-400 font-bold">#QA-982301</span>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+                        <span class="text-slate-400" data-fa="ایمیل تحویل‌گیرنده:" data-en="Delivered To Email:">ایمیل تحویل‌گیرنده:</span>
+                        <span id="receiptEmail" class="font-mono text-slate-200">user@example.com</span>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+                        <span class="text-slate-400" data-fa="اعتبار لینک اختصاصی:" data-en="Link Validity:">اعتبار لینک اختصاصی:</span>
+                        <span class="text-emerald-400 font-bold" data-fa="۲۴ ساعت (امنیت بالا)" data-en="24 Hours (Secure Temp Storage)">۲۴ ساعت (امنیت محتوا)</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-slate-400" data-fa="محتوای پکیج:" data-en="Package Contents:">محتوای پکیج:</span>
+                        <span class="font-mono text-cyan-400 font-bold">.MQ5 + .EX5 + .SET + Manual PDF</span>
+                    </div>
+                </div>
+
+                <!-- Generated Download Link Display -->
+                <div class="space-y-2">
+                    <label class="text-xs text-slate-400 block text-right" data-fa="لینک اختصاصی تولید شده جهت دانلود مستقیم:" data-en="Generated Secure Download URL:">لینک اختصاصی تولید شده جهت دانلود مستقیم:</label>
+                    <div class="flex items-center gap-2 bg-slate-950 p-2.5 rounded-xl border border-amber-500/40">
+                        <input id="generatedLinkInput" type="text" readonly value="https://dl.quantalgo.mt5/sec/token_x90a823.zip" class="bg-transparent text-xs font-mono text-amber-400 w-full outline-none" />
+                        <button onclick="copyToClipboard('generatedLinkInput')" class="px-3 py-1.5 bg-amber-500 text-black rounded-lg hover:bg-amber-400 text-xs font-bold transition-all shrink-0">
+                            کپی لینک
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Automated Email Confirmation Badge -->
+                <div class="p-3 bg-cyan-500/10 border border-cyan-500/30 rounded-xl flex items-center gap-3 text-right">
+                    <i class="fa-solid fa-paper-plane text-cyan-400 text-lg"></i>
+                    <p class="text-[11px] text-cyan-300 leading-tight" data-fa="نسخه پشتیبان لینک دانلود و فایل لایسنس به ایمیل شما نیز ارسال شد." data-en="A backup link and setup instruction manual have also been dispatched to your email address.">
+                        نسخه پشتیبان لینک دانلود و فایل لایسنس به ایمیل شما نیز ارسال شد.
+                    </p>
+                </div>
+
+                <!-- Download Buttons Group -->
+                <div class="flex flex-col sm:flex-row gap-3 pt-2">
+                    <button onclick="generateAndTriggerMql5Zip()" class="w-full py-3.5 bg-gradient-to-r from-amber-500 to-amber-600 text-black font-extrabold rounded-xl hover:shadow-lg transition-all text-xs flex items-center justify-center gap-2 glow-gold">
+                        <i class="fa-solid fa-download text-sm"></i>
+                        <span data-fa="دانلود فوری فایل ZIP پکیج کامل MQL5" data-en="Download Complete MQL5 ZIP Package">دانلود فوری فایل ZIP پکیج کامل MQL5</span>
+                    </button>
+                    <button onclick="closePurchaseModal()" class="w-full sm:w-auto px-6 py-3.5 bg-slate-800 text-slate-300 rounded-xl text-xs font-bold hover:bg-slate-700 transition-all">
+                        بستن
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- FAQ & Installation Instructions -->
+    <section id="faq" class="py-20 bg-slate-950/40 border-t border-slate-800/80">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-white mb-3" data-fa="راهنمای نصب و سوالات متداول" data-en="Installation Guide & FAQ">راهنمای نصب و سوالات متداول</h2>
+                <p class="text-slate-400 text-sm" data-fa="چگونه فایل سورس .MQ5 را در متاتریدر ۵ کامپایل و اجرا کنیم؟" data-en="How to compile and deploy .MQ5 source code inside MT5 MetaEditor?">
+                    چگونه فایل سورس .MQ5 را در متاتریدر ۵ کامپایل و اجرا کنیم؟
+                </p>
+            </div>
+
+            <div class="space-y-4">
+                <!-- FAQ Item 1 -->
+                <div class="bg-slate-900 rounded-xl border border-slate-800 overflow-hidden">
+                    <button onclick="toggleFaq('faq1')" class="w-full p-5 text-right font-bold text-white flex justify-between items-center hover:bg-slate-850">
+                        <span data-fa="نحوه کامپایل فایل سورس .MQ5 در MetaEditor متاتریدر ۵ چگونه است؟" data-en="How to compile the .MQ5 source file in MT5 MetaEditor?">نحوه کامپایل فایل سورس .MQ5 در MetaEditor متاتریدر ۵ چگونه است؟</span>
+                        <i id="faq1-icon" class="fa-solid fa-chevron-down text-amber-400 transition-transform"></i>
+                    </button>
+                    <div id="faq1" class="hidden p-5 pt-0 text-xs text-slate-400 border-t border-slate-800/50 leading-relaxed space-y-2">
+                        <p data-fa="کافی است فایل سورس .MQ5 را در مسیر File -> Open Data Folder -> MQL5 -> Experts کپی کنید. سپس محیط MetaEditor (کلید F4) را باز کرده و دکمه Compile (کلید F7) را فشار دهید تا فایل اجرایی .EX5 بدون هیچ خطایی ایجاد شود." data-en="Simply copy the .MQ5 source file to MQL5/Experts folder. Open MetaEditor (F4) and click Compile (F7) to generate the executable .EX5 file.">
+                            کافی است فایل سورس .MQ5 را در مسیر File -> Open Data Folder -> MQL5 -> Experts کپی کنید. سپس محیط MetaEditor (کلید F4) را باز کرده و دکمه Compile (کلید F7) را فشار دهید تا فایل اجرایی .EX5 بدون هیچ خطایی ایجاد شود.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 2 -->
+                <div class="bg-slate-900 rounded-xl border border-slate-800 overflow-hidden">
+                    <button onclick="toggleFaq('faq2')" class="w-full p-5 text-right font-bold text-white flex justify-between items-center hover:bg-slate-850">
+                        <span data-fa="آیا می‌توانم کد MQL5 را تغییر داده یا روی چندین حساب متاتریدر اجرا کنم؟" data-en="Can I modify the MQL5 code or deploy it on multiple MT5 accounts?">آیا می‌توانم کد MQL5 را تغییر داده یا روی چندین حساب متاتریدر اجرا کنم؟</span>
+                        <i id="faq2-icon" class="fa-solid fa-chevron-down text-amber-400 transition-transform"></i>
+                    </button>
+                    <div id="faq2" class="hidden p-5 pt-0 text-xs text-slate-400 border-t border-slate-800/50 leading-relaxed">
+                        <p data-fa="بله، با خرید پکیج کامل، سورس کد خام بدون هیچ‌گونه قفل لایسنس یا محدودیت بروکر در اختیار شما قرار می‌گیرد و محدودیتی در تعداد حساب‌ها یا تغییرات کد وجود ندارد." data-en="Yes, purchasing the source code grants full unencrypted rights. You can edit the code and deploy it across unlimited live/demo MT5 accounts.">
+                            بله، با خرید پکیج کامل، سورس کد خام بدون هیچ‌گونه قفل لایسنس یا محدودیت بروکر در اختیار شما قرار می‌گیرد و محدودیتی در تعداد حساب‌ها یا تغییرات کد وجود ندارد.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 3 -->
+                <div class="bg-slate-900 rounded-xl border border-slate-800 overflow-hidden">
+                    <button onclick="toggleFaq('faq3')" class="w-full p-5 text-right font-bold text-white flex justify-between items-center hover:bg-slate-850">
+                        <span data-fa="نحوه بارگذاری فایل تنظیمات (.SET) روی اکسپرت چگونه است؟" data-en="How to load the optimized .SET config file onto the EA?">نحوه بارگذاری فایل تنظیمات (.SET) روی اکسپرت چگونه است؟</span>
+                        <i id="faq3-icon" class="fa-solid fa-chevron-down text-amber-400 transition-transform"></i>
+                    </button>
+                    <div id="faq3" class="hidden p-5 pt-0 text-xs text-slate-400 border-t border-slate-800/50 leading-relaxed">
+                        <p data-fa="پس از افزودن ربات به چارت، در پنجره Inputs روی دکمه Load کلیک کرده و فایل .SET متناسب با جفت‌ارز و میزان ریسک مد نظرتان را انتخاب کنید." data-en="Drag the EA onto the chart, open the Inputs tab, click Load, and select your preferred conservative or aggressive .SET file.">
+                            پس از افزودن ربات به چارت، در پنجره Inputs روی دکمه Load کلیک کرده و فایل .SET متناسب با جفت‌ارز و میزان ریسک مد نظرتان را انتخاب کنید.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 border-t border-slate-800 py-12 text-slate-400 text-xs">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-amber-500 text-black flex items-center justify-center font-extrabold text-sm">
+                    MQ5
+                </div>
+                <div>
+                    <span class="text-sm font-bold text-white en-font block">QuantAlgo MT5 Studio</span>
+                    <span class="text-[10px] text-slate-500">MQL5 Source Code & EA Store</span>
+                </div>
+            </div>
+
+            <p class="text-[11px] text-slate-500 text-center max-w-xl leading-relaxed" data-fa="هشدار ریسک: معامله‌گری در بازارهای مالی با اکسپرت‌ها دارای ریسک سرمایه است. همیشه کدهای MQL5 را ابتدا در محیط تست متاتریدر ۵ (MetaTester 5) ارزیابی کنید." data-en="Risk Warning: Trading foreign exchange and CFDs carries high risk. Always backtest MQL5 source codes in MetaTrader 5 strategy tester before live deployment.">
+                هشدار ریسک: معامله‌گری در بازارهای مالی با اکسپرت‌ها دارای ریسک سرمایه است. همیشه کدهای MQL5 را ابتدا در محیط تست متاتریدر ۵ (MetaTester 5) ارزیابی کنید.
+            </p>
+
+            <div class="flex gap-4 text-base text-slate-300">
+                <a href="https://t.me" class="hover:text-amber-400 transition-colors"><i class="fa-brands fa-telegram"></i></a>
+                <a href="https://github.com" class="hover:text-amber-400 transition-colors"><i class="fa-brands fa-github"></i></a>
+                <a href="https://youtube.com" class="hover:text-amber-400 transition-colors"><i class="fa-brands fa-youtube"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Main JavaScript Logic -->
+    <script>
+        // State Management
+        let currentLang = 'FA'; // 'FA' or 'EN'
+        let currentCurrency = 'USD'; // 'USD' or 'IRR'
+        let currentSelectedProduct = 'Gold Scalper Pro X';
+
+        window.onload = function() {
+            initBacktestChart();
+        };
+
+        // Initialize Equity Chart in Performance Section
+        function initBacktestChart() {
+            const ctx = document.getElementById('backtestChart').getContext('2d');
+            const months = ['2021', '2022', '2023', '2024', '2025', '2026'];
+            const equityValues = [10000, 14200, 19800, 24500, 29100, 34850];
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: months,
+                    datasets: [{
+                        label: 'Equity Growth ($)',
+                        data: equityValues,
+                        borderColor: '#f59e0b',
+                        backgroundColor: (context) => {
+                            const bg = context.chart.ctx.createLinearGradient(0, 0, 0, 280);
+                            bg.addColorStop(0, 'rgba(245, 158, 11, 0.35)');
+                            bg.addColorStop(1, 'rgba(245, 158, 11, 0.0)');
+                            return bg;
+                        },
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.35,
+                        pointBackgroundColor: '#10b981',
+                        pointBorderColor: '#080d1a',
+                        pointRadius: 5
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { grid: { color: '#1e293b' }, ticks: { color: '#64748b', font: { family: 'Inter' } } },
+                        y: { grid: { color: '#1e293b' }, ticks: { color: '#64748b', font: { family: 'Inter' } } }
+                    }
+                }
+            });
+        }
+
+        // Currency Toggle Logic
+        function setCurrency(currency) {
+            currentCurrency = currency;
+            const usdBtn = document.getElementById('currUsdBtn');
+            const irrBtn = document.getElementById('currIrrBtn');
+
+            if (currency === 'USD') {
+                usdBtn.className = "px-2.5 py-1 rounded-lg transition-all bg-amber-500 text-black font-bold";
+                irrBtn.className = "px-2.5 py-1 rounded-lg transition-all text-slate-400 hover:text-white";
+            } else {
+                irrBtn.className = "px-2.5 py-1 rounded-lg transition-all bg-emerald-500 text-black font-bold";
+                usdBtn.className = "px-2.5 py-1 rounded-lg transition-all text-slate-400 hover:text-white";
+            }
+
+            // Update Product Card Prices
+            const priceDisplays = document.querySelectorAll('.price-display');
+            priceDisplays.forEach(el => {
+                const usdVal = el.getAttribute('data-usd');
+                const irrVal = parseInt(el.getAttribute('data-irr'));
+                if (currency === 'USD') {
+                    el.innerText = '$' + usdVal + ' USD';
+                } else {
+                    el.innerText = irrVal.toLocaleString('fa-IR') + ' تومان';
+                }
+            });
+        }
+
+        // Bilingual Language Switching Logic
+        function toggleLanguage() {
+            currentLang = currentLang === 'FA' ? 'EN' : 'FA';
+            document.getElementById('langLabel').innerText = currentLang === 'FA' ? 'EN' : 'FA';
+            
+            // Adjust HTML Direction
+            document.documentElement.dir = currentLang === 'FA' ? 'rtl' : 'ltr';
+
+            // Swap all data-fa and data-en text nodes
+            const translatableElements = document.querySelectorAll('[data-fa][data-en]');
+            translatableElements.forEach(el => {
+                el.innerText = currentLang === 'FA' ? el.getAttribute('data-fa') : el.getAttribute('data-en');
+            });
+        }
+
+        // Filter EA Catalog
+        function filterCatalog(category) {
+            const buttons = document.querySelectorAll('#filterBtnGroup .filter-btn');
+            buttons.forEach(btn => {
+                if (btn.getAttribute('data-filter') === category) {
+                    btn.className = "filter-btn active px-4 py-2 rounded-xl bg-amber-500 text-black border border-amber-500 font-bold transition-all";
+                } else {
+                    btn.className = "filter-btn px-4 py-2 rounded-xl bg-slate-900 text-slate-300 border border-slate-800 hover:border-slate-700 transition-all";
+                }
+            });
+
+            const cards = document.querySelectorAll('#productGrid .product-card');
+            cards.forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category') === category) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Purchase Modal Controls
+        function openPurchaseModal(title, usdPrice, irrPrice, category) {
+            currentSelectedProduct = title;
+            document.getElementById('modalProductName').innerText = title;
+            document.getElementById('modalUsdPrice').innerText = '$' + usdPrice + ' USD';
+            document.getElementById('modalIrrPrice').innerText = irrPrice.toLocaleString('fa-IR') + ' تومان';
+
+            // Reset Views inside Modal
+            document.getElementById('cryptoPaymentView').classList.remove('hidden');
+            document.getElementById('rialPaymentView').classList.add('hidden');
+            document.getElementById('downloadSuccessView').classList.add('hidden');
+
+            switchPaymentMethod('crypto');
+            document.getElementById('purchaseModal').classList.remove('hidden');
+        }
+
+        // Form Processors & Dynamic Link Generation
+        function processCryptoOrder(e) {
+            e.preventDefault();
+            const email = e.target.querySelector('input[type="email"]').value;
+            triggerLinkGenerator(email);
+            document.getElementById('cryptoPaymentView').classList.add('hidden');
+            document.getElementById('downloadSuccessView').classList.remove('hidden');
+        }
+
+        function processRialOrder(e) {
+            e.preventDefault();
+            const email = document.getElementById('rialEmailInput').value || "user@domain.com";
+            triggerLinkGenerator(email);
+            document.getElementById('rialPaymentView').classList.add('hidden');
+            document.getElementById('downloadSuccessView').classList.remove('hidden');
+        }
+
+        function simulateShaparakRedirect() {
+            alert(currentLang === 'FA' ? 'در حال انتقال به درگاه امن شاپرک بانکی...' : 'Redirecting to Shaparak Secure Gateway...');
+            setTimeout(() => {
+                triggerLinkGenerator("buyer@shaparak.ir");
+                document.getElementById('rialPaymentView').classList.add('hidden');
+                document.getElementById('downloadSuccessView').classList.remove('hidden');
+            }, 1200);
+        }
+
+        // Generate Dynamic Order ID, Secure Download URL, and Email Receipt Info
+        function triggerLinkGenerator(userEmail) {
+            const randomOrderId = 'QA-' + Math.floor(100000 + Math.random() * 900000);
+            const randomToken = Math.random().toString(36).substring(2, 12);
+            const secureDownloadUrl = `https://dl.quantalgo.mt5/secure_downloads/${randomOrderId}_${randomToken}.zip`;
+
+            document.getElementById('receiptOrderId').innerText = '#' + randomOrderId;
+            document.getElementById('receiptEmail').innerText = userEmail;
+            document.getElementById('generatedLinkInput').value = secureDownloadUrl;
+        }
+
+        // Generate a Real Client-Side Blob Package Download containing sample MQL5 source code & documentation
+        function generateAndTriggerMql5Zip() {
+            const mql5SourceCode = `//+------------------------------------------------------------------+
+//| ${currentSelectedProduct} - MQL5 Expert Advisor               |
+//| Developer: QuantAlgo MT5 Studio                                 |
+//+------------------------------------------------------------------+
+#property copyright "QuantAlgo Studio 2026"
+#property link      "https://quantalgo.mt5"
+#property version   "3.50"
+
+#include <Trade\\Trade.mqh>
+
+CTrade ExtTrade;
+input double InpLotSize = 0.10; // Lot Size
+input int    InpMagic   = 88201; // Magic Number
+
+int OnInit() {
+   ExtTrade.SetExpertMagicNumber(InpMagic);
+   Print("QuantAlgo Expert Advisor initialized successfully.");
+   return(INIT_SUCCEEDED);
+}
+
+void OnTick() {
+   // Core Algorithmic Execution Logic Here
+}
+`;
+
+            const blob = new Blob([mql5SourceCode], { type: "text/plain;charset=utf-8" });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = `${currentSelectedProduct.replace(/\s+/g, '_')}_MQL5_Package.mq5`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function closePurchaseModal() {
+            document.getElementById('purchaseModal').classList.add('hidden');
+        }
+
+        function switchPaymentMethod(method) {
+            const tabCryptoBtn = document.getElementById('tabCryptoBtn');
+            const tabRialBtn = document.getElementById('tabRialBtn');
+            const cryptoView = document.getElementById('cryptoPaymentView');
+            const rialView = document.getElementById('rialPaymentView');
+
+            if (method === 'crypto') {
+                tabCryptoBtn.className = "py-2.5 rounded-lg font-bold text-xs sm:text-sm transition-all bg-gradient-to-r from-amber-500 to-amber-600 text-black flex items-center justify-center gap-2";
+                tabRialBtn.className = "py-2.5 rounded-lg font-bold text-xs sm:text-sm transition-all text-slate-400 hover:text-white flex items-center justify-center gap-2";
+                cryptoView.classList.remove('hidden');
+                rialView.classList.add('hidden');
+            } else {
+                tabRialBtn.className = "py-2.5 rounded-lg font-bold text-xs sm:text-sm transition-all bg-gradient-to-r from-emerald-500 to-cyan-500 text-black flex items-center justify-center gap-2";
+                tabCryptoBtn.className = "py-2.5 rounded-lg font-bold text-xs sm:text-sm transition-all text-slate-400 hover:text-white flex items-center justify-center gap-2";
+                rialView.classList.remove('hidden');
+                cryptoView.classList.add('hidden');
+            }
+        }
+
+        // Copy Text Helper
+        function copyToClipboard(id) {
+            const element = document.getElementById(id);
+            let text = element.value || element.innerText;
+            text = text.replace(/\s+/g, '');
+
+            const tempInput = document.createElement('input');
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+
+            const btn = event.target;
+            const originalText = btn.innerText;
+            btn.innerText = 'کپی شد!';
+            btn.classList.add('bg-emerald-500', 'text-black');
+            setTimeout(() => {
+                btn.innerText = originalText;
+                btn.classList.remove('bg-emerald-500', 'text-black');
+            }, 1800);
+        }
+
+        // Form Processors
+        function processCryptoOrder(e) {
+            e.preventDefault();
+            document.getElementById('cryptoPaymentView').classList.add('hidden');
+            document.getElementById('downloadSuccessView').classList.remove('hidden');
+        }
+
+        function processRialOrder(e) {
+            e.preventDefault();
+            document.getElementById('rialPaymentView').classList.add('hidden');
+            document.getElementById('downloadSuccessView').classList.remove('hidden');
+        }
+
+        function simulateShaparakRedirect() {
+            alert(currentLang === 'FA' ? 'در حال انتقال به درگاه امن شاپرک بانکی...' : 'Redirecting to Shaparak Secure Gateway...');
+            setTimeout(() => {
+                document.getElementById('rialPaymentView').classList.add('hidden');
+                document.getElementById('downloadSuccessView').classList.remove('hidden');
+            }, 1200);
+        }
+
+        function triggerSimulatedDownload() {
+            alert(currentLang === 'FA' ? 'دانلود پکیج MQL5 (.mq5 + .ex5 + .set) آغاز شد.' : 'Downloading MQL5 Zip Package (.mq5 + .ex5 + .set)...');
+        }
+
+        // FAQ Toggles
+        function toggleFaq(id) {
+            const content = document.getElementById(id);
+            const icon = document.getElementById(id + '-icon');
+            content.classList.toggle('hidden');
+            icon.classList.toggle('rotate-180');
+        }
+    </script>
+</body>
+</html>
